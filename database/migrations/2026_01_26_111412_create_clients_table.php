@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('company_name')->nullable();
             $table->string('company_email')->nullable();
             $table->string('phone')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');

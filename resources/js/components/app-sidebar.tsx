@@ -1,3 +1,5 @@
+import { Link } from '@inertiajs/react';
+import { BookOpen, Folder, LayoutGrid, Users } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -13,8 +15,6 @@ import {
 import { dashboard } from '@/routes';
 import { index as clientsIndex } from '@/routes/clients'
 import type { NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -24,7 +24,7 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Clients',
+        title: 'Πελάτες',
         href: clientsIndex(),
         icon: Users,
     },

@@ -17,6 +17,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
 });
 
 require __DIR__ . '/settings.php';

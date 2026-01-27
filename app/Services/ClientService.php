@@ -19,7 +19,7 @@ class ClientService {
         return $this->clientRepository->create($data);
     }
 
-    public function getClientsForDashboard(?string $search) {
-        return $this->clientRepository->getAllPaginated(12, $search);
+    public function getClientsForDashboard(?string $search, ?string $status = null) {
+        return $this->clientRepository->getAllPaginated(12, $search, $status);
     }
 }
