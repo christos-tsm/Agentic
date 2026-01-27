@@ -30,4 +30,9 @@ class ProjectRepository {
     public function findById(int $id): Project {
         return Project::findOrFail($id);
     }
+
+    public function update(Project $project, array $data): Project {
+        $project->update($data);
+        return $project->fresh();
+    }
 }

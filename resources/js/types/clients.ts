@@ -6,6 +6,7 @@ export type Clients = {
     email: string;
     company_name: string;
     phone: string;
+    projects_count?: number;
     status: 'active' | 'inactive';
 };
 

@@ -2,7 +2,7 @@ import { Head, Link, router } from "@inertiajs/react"
 import { useState } from "react";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
-import { index as projectsIndex, create } from "@/routes/projects"
+import { index as projectsIndex, create, show } from "@/routes/projects"
 import { BreadcrumbItem } from "@/types";
 import { Projects, PROJECTS_STATUS, ProjectsPageData, ProjectsStatus } from "@/types/projects";
 import { Plus } from "lucide-react";
@@ -87,7 +87,7 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                             value={status}
                             onChange={(e) => setStatus(e.target.value as ProjectsStatus)}
                         >
-                            <option value="" selected disabled>Κατάσταση</option>
+                            <option value="">Κατάσταση</option>
                             {PROJECTS_STATUS.map(
                                 stat => <option key={stat}>{stat}</option>
                             )}
@@ -112,7 +112,11 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                             </div>
                             {projects.data.map(project =>
                                 <div key={project.id} className="grid grid-cols-5 text-sm odd:bg-gray-200 py-2">
-                                    <p className="font-bold">{project.title}</p>
+                                    <p className="font-bold">
+                                        <Link href={show(project.id).url}>
+                                            {project.title}
+                                        </Link>
+                                    </p>
                                     <p className="font-medium">{project.client.company_name || project.client.name || '-'}</p>
                                     <p className="font-medium">
                                         {project.status}

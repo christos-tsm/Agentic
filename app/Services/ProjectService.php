@@ -22,4 +22,9 @@ class ProjectService {
     public function getProjects(?string $search, ?string $status = null) {
         return $this->projectRepository->getAllPaginated(12, $search, $status);
     }
+
+    public function updateProject(Project $project, array $data): Project {
+        Log::info('Project updated: ' . $project->id);
+        return $this->projectRepository->update($project, $data);
+    }
 }

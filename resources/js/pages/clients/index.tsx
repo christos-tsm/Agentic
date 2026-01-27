@@ -59,6 +59,8 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
         }
     };
 
+    console.log(clients);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -99,18 +101,19 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                 {clients.data.length >= 1 ?
                     <>
                         <div className="min-h-[469px]">
-                            <div className="grid grid-cols-5 border-b border-b-gray-200 text-sm py-2">
+                            <div className="grid grid-cols-6 gap-10 border-b border-b-gray-200 text-sm py-2">
                                 <p>Όνομα</p>
                                 <p>Όνομα εταιρείας</p>
                                 <p>Email</p>
                                 <p>Τηλέφωνο</p>
+                                <p>Ενεργά πρότζεκτ</p>
                                 <p>Status</p>
                             </div>
                             {clients.data.map(client =>
-                                <div key={client.id} className="grid grid-cols-5 text-sm odd:bg-gray-200 py-2">
-                                    <p className="font-bold">{client.name}</p>
-                                    <p className="font-medium">{client.company_name || '-'}</p>
-                                    <p className="font-medium">
+                                <div key={client.id} className="grid grid-cols-6 gap-10 text-sm odd:bg-gray-200 py-2">
+                                    <p className="font-bold overflow-clip text-ellipsis">{client.name}</p>
+                                    <p className="font-medium overflow-clip text-ellipsis">{client.company_name || '-'}</p>
+                                    <p className="font-medium overflow-clip text-ellipsis">
                                         <a href={`mailto:${client.email}`} className="hover:text-primary transition-colors duration-300">
                                             {client.email}
                                         </a>
@@ -119,6 +122,9 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                                         <a href={`tel:${client.phone}`} className="hover:text-primary transition-colors duration-300">
                                             {client.phone}
                                         </a>
+                                    </p>
+                                    <p className="font-medium">
+                                        {client.projects_count}
                                     </p>
                                     <p className={`capitalize font-bold text-5xl leading-1 flex items-center`}>
                                         <span className={`w-2 h-2 rounded-full inline-flex ${client.status === 'active' ? 'bg-green-600' : 'bg-red-400'}`}></span>
