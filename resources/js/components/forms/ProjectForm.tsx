@@ -1,5 +1,6 @@
 import { Form } from "@inertiajs/react"
 import { store, update } from "@/routes/projects"
+import { ClientsList } from "@/types/clients";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
 
-const ProjectForm = ({ project }: { project?: Projects }) => {
+const ProjectForm = ({ project, clients }: { project?: Projects, clients: ClientsList }) => {
     return (
         <div className="bg-white p-5 rounded w-full h-full">
             <div className="flex justify-between items-center mb-5">
@@ -39,9 +40,11 @@ const ProjectForm = ({ project }: { project?: Projects }) => {
                                     </SelectTrigger>
                                     <SelectContent className="w-full">
                                         <SelectGroup className="w-full">
-                                            <SelectItem value="1">Άγγελος Γάσπαρη</SelectItem>
-                                            <SelectItem value="2">Ζηνοβία Νικολόπουλος</SelectItem>
-                                            <SelectItem value="7">Λαοκράτης Παπαδοπούλου</SelectItem>
+                                            {clients && clients.data.map( client => 
+                                                <SelectItem key={client.id} value={client.id.toString()}>{client.name || client.company_name}</SelectItem> )}
+                                            {/* <SelectItem value="1">Άγγελος Γάσπαρη</SelectItem> */}
+                                            {/* <SelectItem value="2">Ζηνοβία Νικολόπουλος</SelectItem> */}
+                                            {/* <SelectItem value="7">Λαοκράτης Παπαδοπούλου</SelectItem> */}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -68,7 +71,6 @@ const ProjectForm = ({ project }: { project?: Projects }) => {
                                     name="description"
                                     tabIndex={3}
                                     rows={4}
-                                    placeholder="Project description (optional)"
                                     className="flex min-h-[80px] w-full rounded-md border border-input bg-white px-3 py-2 text-sm placeholder:text-muted-foreground outline-0 disabled:cursor-not-allowed disabled:opacity-50"
                                     defaultValue={project ? project.description : ''}
                                 />

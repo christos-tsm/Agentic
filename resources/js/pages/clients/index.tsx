@@ -59,7 +59,6 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
         }
     };
 
-    console.log(clients);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

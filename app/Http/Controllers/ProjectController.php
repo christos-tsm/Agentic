@@ -6,12 +6,13 @@ use App\Http\Requests\ProjectFilterRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\SearchRequest;
 use App\Models\Project;
+use App\Services\ClientService;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProjectController extends Controller {
-    public function __construct(private ProjectService $projectService) {
+    public function __construct(private ProjectService $projectService, private ClientService $clientService) {
     }
 
     public function index(ProjectFilterRequest $projectFilterRequest) {
@@ -27,7 +28,10 @@ class ProjectController extends Controller {
     }
 
     public function create() {
-        return Inertia::render('projects/create', []);
+        $clients = $this->clientService->getClientsForDashboard('', null);
+        return Inertia::render('projects/create', [
+            'clients' => $clients
+        ]);
     }
 
     public function show(Project $project) {

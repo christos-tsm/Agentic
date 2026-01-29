@@ -10,4 +10,8 @@ export type Clients = {
     status: 'active' | 'inactive';
 };
 
+export type ClientsList = {
+    data: Clients[]
+}
+
 export type ClientsPageData = PaginatedResponse<Clients>;
