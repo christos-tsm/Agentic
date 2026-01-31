@@ -1,23 +1,22 @@
-import { Form, router } from "@inertiajs/react"
-import { Delete, XCircle } from "lucide-react";
-import { store, update, deleteMethod, index as projectsIndex } from "@/routes/projects"
-import { ClientsList } from "@/types/clients";
+import { Form } from "@inertiajs/react"
+import { XCircle } from "lucide-react";
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { DatePicker } from "@/components/ui/date-picker"
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
-import { Button } from '@/components/ui/button';
-import InputError from '@/components/input-error';
-import { Projects } from "@/types/projects";
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { DatePicker } from "@/components/ui/date-picker"
+import { Spinner } from '@/components/ui/spinner';
+import { store, update, deleteMethod } from "@/routes/projects"
+import type { ClientsList } from "@/types/clients";
+import type { Projects } from "@/types/projects";
 
 const ProjectForm = ({ project, clients }: { project?: Projects, clients: ClientsList }) => {
 
