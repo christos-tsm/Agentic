@@ -1,18 +1,23 @@
-import { Head, router } from "@inertiajs/react"
-import { useState } from "react"
-import { PaginationComponent } from "@/components/ui/pagination"
+import { Head, Link, router, usePage } from "@inertiajs/react"
+import { useEffect, useState } from "react";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
-import { index as clientsIndex } from "@/routes/clients";
-import type { BreadcrumbItem } from "@/types";
-import type { ClientsPageData } from "@/types/clients";
+import { index as projectsIndex, create, show } from "@/routes/projects"
+import { Auth, BreadcrumbItem } from "@/types";
+import { Projects, PROJECTS_STATUS, ProjectsPageData, ProjectsStatus } from "@/types/projects";
+import { Plus } from "lucide-react";
+import ProjectForm from "@/components/forms/ProjectForm";
+import { PaginationComponent } from "@/components/ui/pagination";
+import toast from "react-hot-toast";
 
-type ClientsPageType = {
-    clients: ClientsPageData;
+type ProjectsPageType = {
+    projects: ProjectsPageData;
     filters?: {
         search?: string;
-        status?: 'active' | 'inactive';
+        status?: ProjectsStatus
     };
+    message?: string;
+    status?: string;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -21,18 +26,17 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: dashboard().url,
     },
     {
-        title: 'Πελάτες',
-        href: clientsIndex().url,
+        title: 'Προτζεκτ',
+        href: projectsIndex().url,
     },
 ];
 
-const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
-    const [search, setSearch] = useState(filters.search || '');
-    const [status, setStatus] = useState<'active' | 'inactive' | ''>(filters.status || '');
-
+const ProjectsPage = ({ projects, filters = {}, message, status: operationStatus }: ProjectsPageType) => {
+    const [search, setSearch] = useState(filters?.search || '');
+    const [status, setStatus] = useState<ProjectsStatus | ''>(filters?.status || '');
 
     const handleFilter = () => {
-        router.get(clientsIndex().url, {
+        router.get(projectsIndex().url, {
             search: search || undefined,
             status: status || undefined,
         }, {
@@ -59,7 +63,6 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
         }
     };
 
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -68,7 +71,7 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                     <div className="border rounded border-gray-200 px-4 py-2 flex-1">
                         <input
                             type="text"
-                            placeholder="Όνομα, email, τηλέφωνο"
+                            placeholder="Τίτλος, Όνομα πελάτη"
                             name="search"
                             id="search"
                             className="outline-0 text-sm font-medium w-full"
@@ -83,11 +86,12 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                             id="status"
                             className="outline-0 text-sm font-medium bg-transparent cursor-pointer"
                             value={status}
-                            onChange={(e) => setStatus(e.target.value as 'active' | 'inactive' | '')}
+                            onChange={(e) => setStatus(e.target.value as ProjectsStatus)}
                         >
-                            <option value="">Όλα τα status</option>
-                            <option value="active">Ενεργός</option>
-                            <option value="inactive">Ανενεργός</option>
+                            <option value="">Κατάσταση</option>
+                            {PROJECTS_STATUS.map(
+                                stat => <option key={stat}>{stat}</option>
+                            )}
                         </select>
                     </div>
                     <button
@@ -97,50 +101,54 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                         Αναζήτηση
                     </button>
                 </div>
-                {clients.data.length >= 1 ?
+                {projects.data.length >= 1 ?
                     <>
-                        <div className="min-h-[469px]">
-                            <div className="grid grid-cols-6 gap-10 border-b border-b-gray-200 text-sm py-2">
-                                <p>Όνομα</p>
-                                <p>Όνομα εταιρείας</p>
-                                <p>Email</p>
-                                <p>Τηλέφωνο</p>
-                                <p>Ενεργά πρότζεκτ</p>
-                                <p>Status</p>
+                        <div className="min-h-500">
+                            <div className="grid grid-cols-5 border-b border-b-gray-200 text-sm py-2">
+                                <p>Τίτλος</p>
+                                <p>Πελάτης</p>
+                                <p>Κατάσταση</p>
+                                <p>Budget</p>
+                                <p>Deadline</p>
                             </div>
-                            {clients.data.map(client =>
-                                <div key={client.id} className="grid grid-cols-6 gap-10 text-sm odd:bg-gray-200 py-2">
-                                    <p className="font-bold overflow-clip text-ellipsis">{client.name}</p>
-                                    <p className="font-medium overflow-clip text-ellipsis">{client.company_name || '-'}</p>
-                                    <p className="font-medium overflow-clip text-ellipsis">
-                                        <a href={`mailto:${client.email}`} className="hover:text-primary transition-colors duration-300">
-                                            {client.email}
-                                        </a>
+                            {projects.data.map(project =>
+                                <div key={project.id} className="grid grid-cols-5 text-sm odd:bg-gray-200/50 py-2">
+                                    <p className="font-bold">
+                                        <Link href={show(project.id).url}>
+                                            {project.title}
+                                        </Link>
+                                    </p>
+                                    <p className="font-medium">{project.client.name || project.client.company_name}</p>
+                                    <p className="font-medium">
+                                        {project.status}
                                     </p>
                                     <p className="font-medium">
-                                        <a href={`tel:${client.phone}`} className="hover:text-primary transition-colors duration-300">
-                                            {client.phone}
-                                        </a>
+                                        {project.budget}
                                     </p>
                                     <p className="font-medium">
-                                        {client.projects_count}
-                                    </p>
-                                    <p className={`capitalize font-bold text-5xl leading-1 flex items-center`}>
-                                        <span className={`w-2 h-2 rounded-full inline-flex ${client.status === 'active' ? 'bg-green-600' : 'bg-red-400'}`}></span>
+                                        {project.deadline_at}
                                     </p>
                                 </div>
                             )}
                         </div>
                         <PaginationComponent
-                            pagination={clients}
+                            pagination={projects}
                             onPageChange={handlePageChange}
                             infoLabel={(from, to, total) => `Εμφάνιση ${from} - ${to} από ${total} πελάτες`}
                         />
                     </>
-                    : <p>Δεν βρέθηκαν πελάτες</p>}
+                    : <p>Δεν βρέθηκαν πρότζεκτ</p>}
             </div>
+
+            <Link
+                href={create().url}
+                className="fixed bottom-5 right-5 inline-flex justify-center items-center cursor-pointer rounded-full py-2 px-5 text-sm font-medium gap-2 bg-primary text-white z-5"
+            >
+                Προσθήκη πρότζεκτ
+                <Plus />
+            </Link>
         </AppLayout>
     )
 }
 
-export default ClientsPage
+export default ProjectsPage

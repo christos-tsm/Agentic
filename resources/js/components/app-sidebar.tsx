@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, File, Folder, LayoutGrid, Users } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as clientsIndex } from '@/routes/clients'
+import { index as projectsIndex } from '@/routes/projects'
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 
@@ -27,6 +28,11 @@ const mainNavItems: NavItem[] = [
         title: 'Πελάτες',
         href: clientsIndex(),
         icon: Users,
+    },
+    {
+        title: 'Προτζεκτ',
+        href: projectsIndex(),
+        icon: File,
     },
 ];
 

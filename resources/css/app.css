@@ -108,6 +108,30 @@
     }
 
     button:not([disabled]) {
-        @apply cursor-pointer;
+        @apply cursor-pointer outline-0 !ring-0;
     }
+
+    input {
+        @apply !outline-0 !ring-0
+    }
+}
+
+.rdp-button_previous {
+    @apply absolute top-7 left-10;
+}
+
+.rdp-button_next {
+    @apply absolute top-7 right-10;
+}
+
+.rdp-month_grid {
+    @apply min-w-[350px] text-center;
+}
+
+.rdp-month_caption {
+    @apply text-center py-4 px-5;
+}
+
+.rdp-selected {
+    @apply bg-primary text-white rounded;
 }
