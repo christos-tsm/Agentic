@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 
 class ProjectRepository {
     public function getAllPaginated(int $perPage = 10, ?string $search = null, ?string $status = null) {
-        Log::info('projects:', [$search, $status]);
         return Project::query()
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -34,5 +33,9 @@ class ProjectRepository {
     public function update(Project $project, array $data): Project {
         $project->update($data);
         return $project->fresh();
+    }
+
+    public function delete(Project $project) {
+        $project->deleteOrFail();
     }
 }

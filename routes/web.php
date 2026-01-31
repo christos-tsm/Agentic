@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
     Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+    Route::delete('/projects/{project}', [ProjectController::class, 'delete'])->name('projects.delete');
 });
 
 require __DIR__ . '/settings.php';

@@ -1,5 +1,5 @@
-import { Form } from "@inertiajs/react"
-import { store, update } from "@/routes/projects"
+import { Form, router } from "@inertiajs/react"
+import { store, update, deleteMethod, index as projectsIndex } from "@/routes/projects"
 import { ClientsList } from "@/types/clients";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,12 +17,25 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
+import { Delete } from "lucide-react";
 
 const ProjectForm = ({ project, clients }: { project?: Projects, clients: ClientsList }) => {
+
     return (
         <div className="bg-white p-5 rounded w-full h-full">
             <div className="flex justify-between items-center mb-5">
                 <h2 className="font-bold text-xl">{project ? 'Επεξεργασία πρότζεκτ' : 'Δημιουργία νέου πρότζεκτ'}</h2>
+                {project ?
+                    <Form {...deleteMethod.form(project.id)}>
+                        {({ processing }) => (
+                            <>
+                                <button disabled={processing}>
+                                    <Delete />
+                                </button>
+                            </>
+                        )}
+                    </Form>
+                    : null}
             </div>
             <Form
                 {...(project ? update.form(project.id) : store.form())}
@@ -40,11 +53,8 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     </SelectTrigger>
                                     <SelectContent className="w-full">
                                         <SelectGroup className="w-full">
-                                            {clients && clients.data.map( client => 
-                                                <SelectItem key={client.id} value={client.id.toString()}>{client.name || client.company_name}</SelectItem> )}
-                                            {/* <SelectItem value="1">Άγγελος Γάσπαρη</SelectItem> */}
-                                            {/* <SelectItem value="2">Ζηνοβία Νικολόπουλος</SelectItem> */}
-                                            {/* <SelectItem value="7">Λαοκράτης Παπαδοπούλου</SelectItem> */}
+                                            {clients && clients.data.map(client =>
+                                                <SelectItem key={client.id} value={client.id.toString()}>{client.name || client.company_name}</SelectItem>)}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>

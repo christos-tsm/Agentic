@@ -12,6 +12,7 @@ import InputError from "@/components/input-error";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { ClientsList } from "@/types/clients";
 
 type ProjectsPageType = {
     projects: Projects;
@@ -36,11 +37,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const ShowProjectsPage = ({ project }: { project: Projects }) => {
+const ShowProjectsPage = ({ project, clients }: { project: Projects, clients: ClientsList }) => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Επεξεργασία πρότζεκτ" />
-            <ProjectForm project={project} />
+            <ProjectForm project={project} clients={clients} />
         </AppLayout>
     )
 }

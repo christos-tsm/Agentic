@@ -27,4 +27,9 @@ class ProjectService {
         Log::info('Project updated: ' . $project->id);
         return $this->projectRepository->update($project, $data);
     }
+
+    public function deleteProject(Project $project) {
+        Log::info('Project deleted: ' . $project->id);
+        return $this->projectRepository->delete($project);
+    }
 }

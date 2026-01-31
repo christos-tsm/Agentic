@@ -1,9 +1,9 @@
-import { Head, Link, router } from "@inertiajs/react"
+import { Head, Link, router, usePage } from "@inertiajs/react"
 import { useState } from "react";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as projectsIndex, create, show } from "@/routes/projects"
-import { BreadcrumbItem } from "@/types";
+import { Auth, BreadcrumbItem } from "@/types";
 import { Projects, PROJECTS_STATUS, ProjectsPageData, ProjectsStatus } from "@/types/projects";
 import { Plus } from "lucide-react";
 import ProjectForm from "@/components/forms/ProjectForm";
@@ -15,6 +15,7 @@ type ProjectsPageType = {
         search?: string;
         status?: ProjectsStatus
     };
+    auth?: Auth;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -28,7 +29,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
+const ProjectsPage = ({ projects, filters = {}, auth }: ProjectsPageType) => {
+    ;
+    const { message } = auth || {};
     const [search, setSearch] = useState(filters?.search || '');
     const [status, setStatus] = useState<ProjectsStatus | ''>(filters?.status || '');
 
@@ -59,8 +62,6 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
             });
         }
     };
-
-    console.log(projects.data)
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -100,6 +101,7 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                         Αναζήτηση
                     </button>
                 </div>
+                {message && <p>{message}</p>}
                 {projects.data.length >= 1 ?
                     <>
                         <div className="min-h-[469px]">
@@ -111,13 +113,13 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                                 <p>Deadline</p>
                             </div>
                             {projects.data.map(project =>
-                                <div key={project.id} className="grid grid-cols-5 text-sm odd:bg-gray-200 py-2">
+                                <div key={project.id} className="grid grid-cols-5 text-sm odd:bg-gray-200/50 py-2">
                                     <p className="font-bold">
                                         <Link href={show(project.id).url}>
                                             {project.title}
                                         </Link>
                                     </p>
-                                    <p className="font-medium">{project.client.company_name || project.client.name || '-'}</p>
+                                    <p className="font-medium">{project.client.name || project.client.company_name}</p>
                                     <p className="font-medium">
                                         {project.status}
                                     </p>
