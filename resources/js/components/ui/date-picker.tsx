@@ -39,25 +39,25 @@ export function DatePicker({
   // Parse date - can be either d/m/Y (display) or YYYY-MM-DD (from backend/MySQL)
   const parseDate = (dateString: string): Date | undefined => {
     if (!dateString) return undefined
-    
+
     // First try MySQL format YYYY-MM-DD
     let parsed = parse(dateString, "yyyy-MM-dd", new Date())
     if (!isNaN(parsed.getTime())) {
       return parsed
     }
-    
+
     // Then try d/MM/yyyy format (with leading zero for month)
     parsed = parse(dateString, "d/MM/yyyy", new Date(), { locale: el })
     if (!isNaN(parsed.getTime())) {
       return parsed
     }
-    
+
     // Try d/M/yyyy in case month doesn't have leading zero
     parsed = parse(dateString, "d/M/yyyy", new Date(), { locale: el })
     if (!isNaN(parsed.getTime())) {
       return parsed
     }
-    
+
     return undefined
   }
 
@@ -91,7 +91,7 @@ export function DatePicker({
   }
 
   const displayValue = date ? formatDate(date) : ""
-  
+
   // Format for MySQL (YYYY-MM-DD)
   const mysqlValue = date ? format(date, "yyyy-MM-dd") : ""
 
@@ -114,7 +114,7 @@ export function DatePicker({
           <Button
             variant="outline"
             className={cn(
-              "w-full justify-start text-left font-normal",
+              "w-full justify-start text-left font-normal bg-white ",
               !date && "text-muted-foreground"
             )}
             disabled={disabled}

@@ -1,5 +1,5 @@
 import { Head, Link, router, usePage } from "@inertiajs/react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as projectsIndex, create, show } from "@/routes/projects"
@@ -8,6 +8,7 @@ import { Projects, PROJECTS_STATUS, ProjectsPageData, ProjectsStatus } from "@/t
 import { Plus } from "lucide-react";
 import ProjectForm from "@/components/forms/ProjectForm";
 import { PaginationComponent } from "@/components/ui/pagination";
+import toast from "react-hot-toast";
 
 type ProjectsPageType = {
     projects: ProjectsPageData;
@@ -15,7 +16,8 @@ type ProjectsPageType = {
         search?: string;
         status?: ProjectsStatus
     };
-    auth?: Auth;
+    message?: string;
+    status?: string;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -29,9 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const ProjectsPage = ({ projects, filters = {}, auth }: ProjectsPageType) => {
-    ;
-    const { message } = auth || {};
+const ProjectsPage = ({ projects, filters = {}, message, status: operationStatus }: ProjectsPageType) => {
     const [search, setSearch] = useState(filters?.search || '');
     const [status, setStatus] = useState<ProjectsStatus | ''>(filters?.status || '');
 
@@ -101,10 +101,9 @@ const ProjectsPage = ({ projects, filters = {}, auth }: ProjectsPageType) => {
                         Αναζήτηση
                     </button>
                 </div>
-                {message && <p>{message}</p>}
                 {projects.data.length >= 1 ?
                     <>
-                        <div className="min-h-[469px]">
+                        <div className="min-h-500">
                             <div className="grid grid-cols-5 border-b border-b-gray-200 text-sm py-2">
                                 <p>Τίτλος</p>
                                 <p>Πελάτης</p>

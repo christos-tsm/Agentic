@@ -9,34 +9,33 @@ use App\Services\ClientService;
 use App\Services\ProjectService;
 use Inertia\Inertia;
 
-class ProjectController extends Controller
-{
-    public function __construct(private ProjectService $projectService, private ClientService $clientService) {}
+class ProjectController extends Controller {
+    public function __construct(private ProjectService $projectService, private ClientService $clientService) {
+    }
 
-    public function index(ProjectFilterRequest $projectFilterRequest)
-    {
+    public function index(ProjectFilterRequest $projectFilterRequest) {
         return Inertia::render('projects/index', [
             'projects' => $this->projectService->getProjects($projectFilterRequest->search, $projectFilterRequest->status),
             'filters' => $projectFilterRequest->only(['search', 'status'])
         ]);
     }
 
-    public function store(ProjectRequest $projectRequest)
-    {
-        $this->projectService->createNewProject($projectRequest->validated());
-        return redirect()->route('projects.index')->with('message', 'Το πρότζεκτ δημιουργήθηκε!');
+    public function store(ProjectRequest $projectRequest) {
+        $created = $this->projectService->createNewProject($projectRequest->validated());
+        return redirect()->route('projects.index')->with([
+            'message' => $created ? 'Το πρότζεκτ δημιουργήθηκε επιτυχώς' : 'Προέκυψε κάποιο σφάλμα',
+            'status' => $created ? 'success' : 'error'
+        ]);
     }
 
-    public function create()
-    {
+    public function create() {
         $clients = $this->clientService->getClientsForDashboard('', null);
         return Inertia::render('projects/create', [
             'clients' => $clients
         ]);
     }
 
-    public function show(Project $project)
-    {
+    public function show(Project $project) {
         $clients = $this->clientService->getClientsForDashboard('', null);
         return Inertia::render('projects/show', [
             'project' => $project,
@@ -44,15 +43,19 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(ProjectRequest $projectRequest, Project $project)
-    {
-        $this->projectService->updateProject($project, $projectRequest->validated());
-        return redirect()->route('projects.show', $project)->with('message', 'Το πρότζεκτ ενημερώθηκε!');
+    public function update(ProjectRequest $projectRequest, Project $project) {
+        $updated = $this->projectService->updateProject($project, $projectRequest->validated());
+        return redirect()->route('projects.show', $project)->with([
+            'message' => $updated ? 'Το πρότζεκτ ανανεωθήκε επιτυχώς' : 'Προέκυψε κάποιο σφάλμα',
+            'status' => $updated ? 'success' : 'error'
+        ]);
     }
 
-    public function delete(Project $project)
-    {
-        $this->projectService->deleteProject($project);
-        return redirect()->route('projects.index')->with('message', 'Το πρότζεκτ διαγράφηκε');
+    public function delete(Project $project) {
+        $deleted = $this->projectService->deleteProject($project);
+        return redirect()->route('projects.index')->with([
+            'message' => $deleted ? 'Το πρότζεκτ διαγράφηκε επιτυχώς' : 'Αποτυχία διαγραφής πρότζεκτ',
+            'status' => $deleted ? 'success' : 'error'
+        ]);
     }
 }

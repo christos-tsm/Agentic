@@ -1,4 +1,5 @@
 import { Form, router } from "@inertiajs/react"
+import { Delete, XCircle } from "lucide-react";
 import { store, update, deleteMethod, index as projectsIndex } from "@/routes/projects"
 import { ClientsList } from "@/types/clients";
 import { Input } from '@/components/ui/input';
@@ -17,7 +18,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { DatePicker } from "@/components/ui/date-picker"
-import { Delete } from "lucide-react";
 
 const ProjectForm = ({ project, clients }: { project?: Projects, clients: ClientsList }) => {
 
@@ -29,8 +29,9 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                     <Form {...deleteMethod.form(project.id)}>
                         {({ processing }) => (
                             <>
-                                <button disabled={processing}>
-                                    <Delete />
+                                <button disabled={processing} className="bg-red-400 inline-flex gap-2 items-center text-white text-sm font-medium px-2 py-1 leading-1 rounded">
+                                    Διαγραφή
+                                    <XCircle />
                                 </button>
                             </>
                         )}
@@ -41,9 +42,8 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                 {...(project ? update.form(project.id) : store.form())}
                 resetOnSuccess={[]}
                 className="flex flex-col gap-6">
-                {({ processing, errors, wasSuccessful }) => (
+                {({ processing, errors }) => (
                     <>
-                        {wasSuccessful && <div className="bg-green-100 text-green-600 text-sm font-medium px-4 py-2">{project ? 'Το πρότζεκτ ανανεώθηκε επιτυχώς' : 'Το πρότζεκτ δημιουργήθηκε επιτυχώς'}</div>}
                         <div className="grid gap-6">
                             <div className="grid gap-2 [&>button]:max-w-full">
                                 <Label htmlFor="client_id">Πελάτης</Label>
@@ -90,7 +90,7 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                             <div className="grid gap-2 [&>button]:max-w-full">
                                 <Label htmlFor="status">Κατάσταση</Label>
                                 <Select name="status" defaultValue={project ? project.status : ''} >
-                                    <SelectTrigger className="w-full max-w-48">
+                                    <SelectTrigger tabIndex={4} className="w-full max-w-48">
                                         <SelectValue placeholder="Επιλογή" />
                                     </SelectTrigger>
                                     <SelectContent className="w-full">
@@ -127,6 +127,7 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     name="deadline_at"
                                     defaultValue={project?.deadline_at || ''}
                                     placeholder="Επιλέξτε ημερομηνία"
+
                                 />
                                 <InputError message={errors.deadline_at} />
                             </div>
@@ -139,7 +140,7 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                 data-test="submit-button"
                             >
                                 {processing && <Spinner />}
-                                Create Project
+                                {project ? 'Ανανέωση' : 'Δημιουργία'}
                             </Button>
                         </div>
                     </>
