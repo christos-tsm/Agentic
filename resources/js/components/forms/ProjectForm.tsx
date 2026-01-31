@@ -80,7 +80,7 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     name="description"
                                     tabIndex={3}
                                     rows={4}
-                                    className="flex min-h-[80px] w-full rounded-md border border-input bg-white px-3 py-2 text-sm placeholder:text-muted-foreground outline-0 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="flex min-h-20 w-full rounded-md border border-input bg-white px-3 py-2 text-sm placeholder:text-muted-foreground outline-0 disabled:cursor-not-allowed disabled:opacity-50"
                                     defaultValue={project ? project.description : ''}
                                 />
                                 <InputError message={errors.description} />
