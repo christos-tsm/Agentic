@@ -1,10 +1,10 @@
 import { Head } from "@inertiajs/react"
+import ProjectForm from "@/components/forms/ProjectForm";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as projectsIndex } from "@/routes/projects"
-import { BreadcrumbItem } from "@/types";
-import ProjectForm from "@/components/forms/ProjectForm";
-import { ClientsList } from "@/types/clients";
+import type { BreadcrumbItem } from "@/types";
+import type { ClientsList } from "@/types/clients";
 
 
 const breadcrumbs: BreadcrumbItem[] = [

@@ -1,26 +1,11 @@
-import { Form, Head, router } from "@inertiajs/react"
-import { useState } from "react";
+import { Head } from "@inertiajs/react"
+import ProjectForm from "@/components/forms/ProjectForm";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
-import { index as projectsIndex, update } from "@/routes/projects"
-import { BreadcrumbItem } from "@/types";
-import { Projects, PROJECTS_STATUS, ProjectsStatus } from "@/types/projects";
-import { Plus } from "lucide-react";
-import ProjectForm from "@/components/forms/ProjectForm";
-import { Label } from "@/components/ui/label";
-import InputError from "@/components/input-error";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { ClientsList } from "@/types/clients";
-
-type ProjectsPageType = {
-    projects: Projects;
-    filters?: {
-        search?: string;
-        status?: ProjectsStatus
-    };
-}
+import { index as projectsIndex } from "@/routes/projects"
+import type { BreadcrumbItem } from "@/types";
+import type { ClientsList } from "@/types/clients";
+import type { Projects } from "@/types/projects";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
