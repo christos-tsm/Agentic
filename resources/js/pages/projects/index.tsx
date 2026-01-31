@@ -30,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const ProjectsPage = ({ projects, filters = {}, message, status: operationStatus }: ProjectsPageType) => {
+const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
     const [search, setSearch] = useState(filters?.search || '');
     const [status, setStatus] = useState<ProjectsStatus | ''>(filters?.status || '');
 
