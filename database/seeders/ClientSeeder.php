@@ -21,7 +21,16 @@ class ClientSeeder extends Seeder {
                 'password' => Hash::make('ct6982384256'),
                 'email_verified_at' => now(),
             ]
-        );
+        )->assignRole('admin');
+
+        $employee = User::updateOrCreate(
+            ['email' => 'employee@agentic.com'],
+            [
+                'name' => 'Employee User',
+                'password' => Hash::make('employee123'),
+                'email_verified_at' => now(),
+            ]
+        )->assignRole('employee');
 
         $faker = Faker::create('el_GR');
         $statuses = ['active', 'inactive'];
