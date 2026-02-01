@@ -1,9 +1,10 @@
-import { Head, router } from "@inertiajs/react"
+import { Head, Link, router } from "@inertiajs/react"
+import { Plus } from "lucide-react";
 import { useState } from "react"
 import { PaginationComponent } from "@/components/ui/pagination"
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
-import { index as clientsIndex } from "@/routes/clients";
+import { index as clientsIndex, create, show } from "@/routes/clients";
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsPageData } from "@/types/clients";
 
@@ -99,22 +100,30 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                 </div>
                 {clients.data.length >= 1 ?
                     <>
-                        <div className="min-h-[469px]">
-                            <div className="grid grid-cols-6 gap-10 border-b border-b-gray-200 text-sm py-2">
+                        <div className="min-h-125">
+                            <div className="grid grid-cols-8 gap-10 border-b border-b-gray-200 text-sm py-2">
                                 <p>Όνομα</p>
                                 <p>Όνομα εταιρείας</p>
+                                <p>ΑΦΜ</p>
+                                <p>ΔΟΥ</p>
                                 <p>Email</p>
                                 <p>Τηλέφωνο</p>
                                 <p>Ενεργά πρότζεκτ</p>
                                 <p>Status</p>
                             </div>
                             {clients.data.map(client =>
-                                <div key={client.id} className="grid grid-cols-6 gap-10 text-sm odd:bg-gray-200 py-2">
-                                    <p className="font-bold overflow-clip text-ellipsis">{client.name}</p>
+                                <div key={client.id} className="grid grid-cols-8 gap-10 text-sm odd:bg-gray-200 py-2">
+                                    <p className="font-bold overflow-clip text-ellipsis">
+                                        <Link href={show(client.id)}>
+                                            {client.name}
+                                        </Link>
+                                    </p>
                                     <p className="font-medium overflow-clip text-ellipsis">{client.company_name || '-'}</p>
+                                    <p className="font-medium overflow-clip text-ellipsis">{client.vat_number || '-'}</p>
+                                    <p className="font-medium overflow-clip text-ellipsis">{client.doy || '-'}</p>
                                     <p className="font-medium overflow-clip text-ellipsis">
-                                        <a href={`mailto:${client.email}`} className="hover:text-primary transition-colors duration-300">
-                                            {client.email}
+                                        <a href={`mailto:${client.company_email ?? client.email}`} className="hover:text-primary transition-colors duration-300">
+                                            {client.company_email ?? client.email}
                                         </a>
                                     </p>
                                     <p className="font-medium">
@@ -139,6 +148,13 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                     </>
                     : <p>Δεν βρέθηκαν πελάτες</p>}
             </div>
+            <Link
+                href={create().url}
+                className="fixed bottom-5 right-5 inline-flex justify-center items-center cursor-pointer rounded-full py-2 px-5 text-sm font-medium gap-2 bg-primary text-white z-5"
+            >
+                Προσθήκη πελάτη
+                <Plus />
+            </Link>
         </AppLayout>
     )
 }

@@ -1,4 +1,4 @@
-import type { Clients } from "./clients";
+import type { Client } from "./clients";
 import type { PaginatedResponse } from './index';
 
 export const PROJECTS_STATUS = ['backlog', 'in_progress', 'completed', 'on_hold'] as const;
@@ -9,7 +9,7 @@ export type Projects = {
     id: number;
     title: string;
     client_id: number;
-    client: Clients;
+    client: Client;
     description: string;
     status: ProjectsStatus;
     budget: number;

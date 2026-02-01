@@ -40,7 +40,7 @@ class ProjectService {
         }
     }
 
-    public function deleteProject(Project $project) {
+    public function deleteProject(Project $project): bool {
         try {
             Log::info('Project deleted: ' . $project->id);
             $this->projectRepository->delete($project);

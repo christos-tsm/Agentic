@@ -1,17 +1,26 @@
 import type { PaginatedResponse } from './index';
 
-export type Clients = {
+export type Client = {
     id: number;
     name: string;
-    email: string;
+    is_company: boolean;
     company_name: string;
+    company_email: string;
+    profession: string;
+    vat_number: string;
+    doy: string;
+    email: string;
     phone: string;
+    address: string;
+    city: string;
+    zip_code: string;
+    country: string;
     projects_count?: number;
     status: 'active' | 'inactive';
 };
 
 export type ClientsList = {
-    data: Clients[]
+    data: Client[]
 }
 
-export type ClientsPageData = PaginatedResponse<Clients>;
+export type ClientsPageData = PaginatedResponse<Client>;
