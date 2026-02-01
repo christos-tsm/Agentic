@@ -8,6 +8,7 @@ import { index as projectsIndex, create, show } from "@/routes/projects"
 import type { BreadcrumbItem } from "@/types";
 import type { ProjectsPageData, ProjectsStatus } from "@/types/projects";
 import { PROJECTS_STATUS } from "@/types/projects";
+import Notice from "@/components/ui/notice";
 
 type ProjectsPageType = {
     projects: ProjectsPageData;
@@ -136,7 +137,7 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                             infoLabel={(from, to, total) => `Εμφάνιση ${from} - ${to} από ${total} πελάτες`}
                         />
                     </>
-                    : <p>Δεν βρέθηκαν πρότζεκτ</p>}
+                    : <Notice>Δεν βρέθηκαν πρότζεκτ</Notice>}
             </div>
 
             <Link
