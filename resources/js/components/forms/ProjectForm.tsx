@@ -19,7 +19,8 @@ import type { ClientsList } from "@/types/clients";
 import type { Projects } from "@/types/projects";
 
 const ProjectForm = ({ project, clients }: { project?: Projects, clients: ClientsList }) => {
-
+    let params = new URLSearchParams(window.location.search);
+    const client_id = params.get('client_id');
     return (
         <div className="bg-white p-5 rounded w-full h-full">
             <div className="flex justify-between items-center mb-5">
@@ -46,8 +47,8 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                         <div className="grid gap-6">
                             <div className="grid gap-2 [&>button]:max-w-full">
                                 <Label htmlFor="client_id">Πελάτης</Label>
-                                <Select name="client_id" defaultValue={project ? project.client_id.toString() : ''}>
-                                    <SelectTrigger className="w-full max-w-48">
+                                <Select name="client_id" defaultValue={project?.client_id.toString() || client_id || ''}>
+                                    <SelectTrigger className="w-full max-w-48" id="client_id">
                                         <SelectValue placeholder="Επιλογή" />
                                     </SelectTrigger>
                                     <SelectContent className="w-full">
@@ -68,7 +69,7 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     name="title"
                                     required
                                     tabIndex={2}
-                                    defaultValue={project ? project.title : ''}
+                                    defaultValue={project?.title ?? ''}
                                 />
                                 <InputError message={errors.title} />
                             </div>
@@ -81,15 +82,15 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     tabIndex={3}
                                     rows={4}
                                     className="flex min-h-20 w-full rounded-md border border-input bg-white px-3 py-2 text-sm placeholder:text-muted-foreground outline-0 disabled:cursor-not-allowed disabled:opacity-50"
-                                    defaultValue={project ? project.description : ''}
+                                    defaultValue={project?.description ?? ''}
                                 />
                                 <InputError message={errors.description} />
                             </div>
 
                             <div className="grid gap-2 [&>button]:max-w-full">
                                 <Label htmlFor="status">Κατάσταση</Label>
-                                <Select name="status" defaultValue={project ? project.status : ''} >
-                                    <SelectTrigger tabIndex={4} className="w-full max-w-48">
+                                <Select name="status" defaultValue={project?.status || 'backlog'}>
+                                    <SelectTrigger tabIndex={4} className="w-full max-w-48" id="status">
                                         <SelectValue placeholder="Επιλογή" />
                                     </SelectTrigger>
                                     <SelectContent className="w-full">
@@ -114,7 +115,7 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     min="0"
                                     tabIndex={5}
                                     placeholder="0.00"
-                                    defaultValue={project ? project.budget : ''}
+                                    defaultValue={project?.budget ?? ''}
                                 />
                                 <InputError message={errors.budget} />
                             </div>
@@ -126,7 +127,6 @@ const ProjectForm = ({ project, clients }: { project?: Projects, clients: Client
                                     name="deadline_at"
                                     defaultValue={project?.deadline_at || ''}
                                     placeholder="Επιλέξτε ημερομηνία"
-
                                 />
                                 <InputError message={errors.deadline_at} />
                             </div>

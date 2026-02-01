@@ -46,13 +46,13 @@ export function DatePicker({
     }
 
     // Then try d/MM/yyyy format (with leading zero for month)
-    parsed = parse(dateString, "d/MM/yyyy", new Date(), { locale: el })
+    parsed = parse(dateString, "dd/MM/yyyy", new Date(), { locale: el })
     if (!isNaN(parsed.getTime())) {
       return parsed
     }
 
     // Try d/M/yyyy in case month doesn't have leading zero
-    parsed = parse(dateString, "d/M/yyyy", new Date(), { locale: el })
+    parsed = parse(dateString, "dd/M/yyyy", new Date(), { locale: el })
     if (!isNaN(parsed.getTime())) {
       return parsed
     }
@@ -62,7 +62,7 @@ export function DatePicker({
 
   // Format date to d/m/Y format (backend format with leading zero for month)
   const formatDate = (date: Date): string => {
-    return format(date, "d/MM/yyyy", { locale: el })
+    return format(date, "dd/MM/yyyy", { locale: el })
   }
 
   const initialValue = value || defaultValue || ''
@@ -118,6 +118,7 @@ export function DatePicker({
             )}
             disabled={disabled}
             type="button"
+            id={id}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {displayValue || placeholder}
@@ -130,6 +131,7 @@ export function DatePicker({
             onSelect={handleSelect}
             initialFocus
             locale={el}
+            id={id}
           />
         </PopoverContent>
       </Popover>

@@ -7,6 +7,7 @@ import { dashboard } from "@/routes";
 import { index as clientsIndex, create, show } from "@/routes/clients";
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsPageData } from "@/types/clients";
+import Notice from "@/components/ui/notice";
 
 type ClientsPageType = {
     clients: ClientsPageData;
@@ -146,7 +147,7 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                             infoLabel={(from, to, total) => `Εμφάνιση ${from} - ${to} από ${total} πελάτες`}
                         />
                     </>
-                    : <p>Δεν βρέθηκαν πελάτες</p>}
+                    : <Notice>Δεν βρέθηκαν πελάτες</Notice>}
             </div>
             <Link
                 href={create().url}
