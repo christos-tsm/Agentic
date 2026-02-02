@@ -8,6 +8,8 @@ import {
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import type { NavItem } from '@/types';
+import { UserPlus } from 'lucide-react';
+import { create } from "@/routes/invitations"
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const { isCurrentUrl } = useCurrentUrl();
@@ -30,6 +32,21 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 ))}
+            </SidebarMenu>
+            <SidebarGroupLabel>Χρήστες</SidebarGroupLabel>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton
+                        asChild
+                        isActive={isCurrentUrl(create().url)}
+                        tooltip={'Πρόσκληση χρήστη'}
+                    >
+                        <Link href={create().url} prefetch>
+                            <UserPlus />
+                            <span>Πρόσκληση χρήστη</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
             </SidebarMenu>
         </SidebarGroup>
     );

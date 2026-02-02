@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role as EnumsRole;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -12,13 +13,14 @@ class RoleSeeder extends Seeder {
      * Run the database seeds.
      */
     public function run(): void {
-        $roles = ['admin', 'employee', 'secretary'];
+        $roles = EnumsRole::values();
 
         foreach ($roles as $role) {
             Role::create(['name' => $role]);
         }
 
         $permissions = [
+            'send_invitations',
             'view_clients',
             'create_clients',
             'edit_clients',
@@ -46,6 +48,7 @@ class RoleSeeder extends Seeder {
         ];
 
         $secretaryPermissions = [
+            'send_invitations',
             'view_clients',
             'create_clients',
             'edit_clients',

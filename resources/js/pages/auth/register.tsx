@@ -1,4 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,8 @@ import AuthLayout from '@/layouts/auth-layout';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
-export default function Register() {
+export default function Register({ invitation_token, email, role }: { invitation_token?: string; email?: string; role?: string }) {
+
     return (
         <AuthLayout
             title="Create an account"
@@ -53,6 +54,8 @@ export default function Register() {
                                     autoComplete="email"
                                     name="email"
                                     placeholder="email@example.com"
+                                    readOnly={!!email}
+                                    defaultValue={email ?? ''}
                                 />
                                 <InputError message={errors.email} />
                             </div>
@@ -88,6 +91,9 @@ export default function Register() {
                                     message={errors.password_confirmation}
                                 />
                             </div>
+
+                            <Input type="hidden" name="invitation_token" value={invitation_token ?? ''} />
+                            <Input type="hidden" name="role" value={role ?? ''} />
 
                             <Button
                                 type="submit"

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +37,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
     Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{project}', [ProjectController::class, 'delete'])->name('projects.delete');
+
+    // Invitation Routes
+    Route::get('/invite', [InvitationController::class, 'create'])->name('invitations.create');
+    Route::post('/invite', [InvitationController::class, 'store'])->name('invitations.store');
 });
 
 /*
