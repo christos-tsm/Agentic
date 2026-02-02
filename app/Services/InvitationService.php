@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Role;
 use App\Mail\InvitationMail;
 use App\Models\Invitation;
 use App\Repositories\InvitationRepository;
@@ -13,6 +14,36 @@ class InvitationService {
 
     public function __construct(InvitationRepository $invitationRepository) {
         $this->invitationRepository = $invitationRepository;
+    }
+
+    public function getInvitations(?string $search, ?string $status = null, ?string $role = null) {
+        try {
+            $invitations = $this->invitationRepository->getAllPaginated(12, $search, $status, $role);
+            return $invitations;
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch invitations: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function getInvitationById($invitationId): ?Invitation {
+        try {
+            return $this->invitationRepository->findById($invitationId);
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch invitation: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function cancelInvitation($invitation): bool {
+        try {
+            $data = ['expires_at' => now()];
+            $this->invitationRepository->update($invitation, $data);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Failed to cancel invitation: ' . $e->getMessage());
+            return false;
+        }
     }
 
     public function createNewInvitation(array $data): bool {
@@ -39,16 +70,39 @@ class InvitationService {
         Log::info("Invitation email sent to $email with role: $role");
     }
 
-    public function getInvitationsForDashboard(?string $search, ?string $status = null) {
-        return $this->invitationRepository->getAllPaginated(12, $search, $status);
-    }
-
     public function updateInvitation($invitation, array $data): bool {
         try {
             $this->invitationRepository->update($invitation, $data);
             return true;
         } catch (\Exception $e) {
             Log::error('Failed to update invitation: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function resendInvitationEmail($invitation): bool {
+        try {
+            // Generate new token
+            $newToken = $this->generateToken();
+
+            // Prepare data for update
+            $data = [
+                'invitation_token' => $newToken,
+                'expires_at' => now()->addDays(2)
+            ];
+
+            $this->invitationRepository->update($invitation, $data);
+
+            $this->sendInvitationEmail(
+                $invitation->email,
+                $newToken,
+                $invitation->role
+            );
+
+            Log::info("Invitation resent to {$invitation->email} with new token");
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Failed to resend invitation email: ' . $e->getMessage());
             return false;
         }
     }

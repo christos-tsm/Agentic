@@ -39,8 +39,12 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::delete('/projects/{project}', [ProjectController::class, 'delete'])->name('projects.delete');
 
     // Invitation Routes
-    Route::get('/invite', [InvitationController::class, 'create'])->name('invitations.create');
-    Route::post('/invite', [InvitationController::class, 'store'])->name('invitations.store');
+    Route::get('/invitations', [InvitationController::class, 'index'])->name('invitations.index');
+    Route::get('/invitations/create', [InvitationController::class, 'create'])->name('invitations.create');
+    Route::post('/invitations', [InvitationController::class, 'store'])->name('invitations.store');
+    Route::post('/invitations/{invitation}/cancel', [InvitationController::class, 'cancel'])->name('invitations.cancel');
+    Route::delete('/invitations/{invitation}', [InvitationController::class, 'delete'])->name('invitations.delete');
+    Route::post('/invitations/{invitation}/resend', [InvitationController::class, 'resendEmail'])->name('invitations.resend');
 });
 
 /*

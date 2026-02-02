@@ -1,14 +1,14 @@
-import AppLayout from '@/layouts/app-layout'
-import { Form, Head } from '@inertiajs/react'
+import AppLayout from '@/layouts/app-layout';
+import { Form, Head } from '@inertiajs/react';
 import { BreadcrumbItem } from '@/types/navigation';
 import { dashboard } from '@/routes';
+import { Role, RoleLabels } from '@/types/roles';
 import { store } from '@/routes/invitations';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Role, RoleLabels } from '@/types/roles';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,7 +28,7 @@ const CreateInvitationPage = ({ roles }: { roles: Role[] }) => {
             <Head title="Πρόσκληση χρήστη" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1>Πρόσκληση χρήστη</h1>
-                <Form {...store.form()}>
+                <Form {...store.form()} resetOnSuccess={["email"]}>
                     {({ processing, errors }) => (
                         <div className="flex flex-col gap-4">
                             <div className="grid grid-cols-2 gap-2">
