@@ -1,18 +1,17 @@
 import { useState } from 'react';
+import { RefreshCwIcon, Trash2, XCircle } from 'lucide-react';
 import { Form, Head, router } from '@inertiajs/react';
 import { BreadcrumbItem } from '@/types';
 import { Role, RoleLabels } from '@/types/roles';
+import { InvitationsPageData } from '@/types/invitations';
 import { dashboard } from "@/routes";
 import { index as invitationsIndex, cancel, deleteMethod, resend } from "@/routes/invitations";
+import { formatDate } from '@/lib/utils';
 import AppLayout from '@/layouts/app-layout';
-import { InvitationsPageData } from '@/types/invitations';
 import Notice from '@/components/ui/notice';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { RefreshCwIcon, Trash2, XCircle } from 'lucide-react';
-import { formatDate } from '@/lib/utils';
 import { PaginationComponent } from '@/components/ui/pagination';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -120,8 +119,20 @@ const InvitationsPage = ({ invitations, roles }: { invitations: InvitationsPageD
                                 <p className={invitation.registered_at ? "text-green-600" : "text-red-400"}>{invitation.registered_at ? "Ενεργός" : "Ανενεργός"}</p>
                                 <p>{RoleLabels[invitation.role]}</p>
                                 <p>{formatDate(invitation.created_at)}</p>
-                                <p className={invitation.expires_at && new Date(invitation.expires_at) <= new Date() ? 'text-red-500' : ''}>
-                                    {invitation.registered_at ? <span className="text-green-600">Έχει γίνει εγγραφή</span> : formatDate(invitation.expires_at!!)}
+
+                                <p className="flex items-start gap-2">
+                                    {invitation.registered_at ? (
+                                        <span className="text-green-600">Έχει γίνει εγγραφή</span>
+                                    ) : (
+                                        <>
+                                            <span className={invitation.expires_at && new Date(invitation.expires_at) <= new Date() ? 'text-red-500' : ''}>
+                                                {formatDate(invitation.expires_at!!)}
+                                            </span>
+                                            {invitation.expires_at && new Date(invitation.expires_at) <= new Date() && (
+                                                <span className="bg-red-200 text-red-500 px-2 py-0.5 rounded text-xs">Έληξε</span>
+                                            )}
+                                        </>
+                                    )}
                                 </p>
                                 <p>{invitation.registered_at ? formatDate(invitation.registered_at) : "-"}</p>
                                 <div className="flex flex-col gap-2">
