@@ -1,13 +1,13 @@
 import { Head, Link, router } from "@inertiajs/react"
 import { Plus } from "lucide-react";
 import { useState } from "react"
+import Notice from "@/components/ui/notice";
 import { PaginationComponent } from "@/components/ui/pagination"
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as clientsIndex, create, show } from "@/routes/clients";
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsPageData } from "@/types/clients";
-import Notice from "@/components/ui/notice";
 
 type ClientsPageType = {
     clients: ClientsPageData;

@@ -19,7 +19,7 @@ import type { ClientsList } from "@/types/clients";
 import type { Projects } from "@/types/projects";
 
 const ProjectForm = ({ project, clients }: { project?: Projects, clients: ClientsList }) => {
-    let params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
     const client_id = params.get('client_id');
     return (
         <div className="bg-white p-5 rounded w-full h-full">

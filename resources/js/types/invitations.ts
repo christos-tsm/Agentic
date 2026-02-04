@@ -1,5 +1,5 @@
-import { PaginatedResponse } from ".";
-import { Role } from "./roles";
+import type { Role } from "./roles";
+import type { PaginatedResponse } from ".";
 
 export type Invitation = {
     created_at: string;

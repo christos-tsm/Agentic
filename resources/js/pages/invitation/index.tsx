@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import { RefreshCwIcon, Trash2, XCircle } from 'lucide-react';
 import { Form, Head, router } from '@inertiajs/react';
-import { BreadcrumbItem } from '@/types';
-import { Role, RoleLabels } from '@/types/roles';
-import { InvitationsPageData } from '@/types/invitations';
+import { RefreshCwIcon, Trash2, XCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import Notice from '@/components/ui/notice';
+import { PaginationComponent } from '@/components/ui/pagination';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
+import { formatDate } from '@/lib/utils';
 import { dashboard } from "@/routes";
 import { index as invitationsIndex, cancel, deleteMethod, resend } from "@/routes/invitations";
-import { formatDate } from '@/lib/utils';
-import AppLayout from '@/layouts/app-layout';
-import Notice from '@/components/ui/notice';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { PaginationComponent } from '@/components/ui/pagination';
+import type { BreadcrumbItem } from '@/types';
+import type { InvitationsPageData } from '@/types/invitations';
+import { RoleLabels } from '@/types/roles';
+import type { Role } from '@/types/roles';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -126,7 +127,7 @@ const InvitationsPage = ({ invitations, roles }: { invitations: InvitationsPageD
                                     ) : (
                                         <>
                                             <span className={invitation.expires_at && new Date(invitation.expires_at) <= new Date() ? 'text-red-500' : ''}>
-                                                {formatDate(invitation.expires_at!!)}
+                                                {formatDate(invitation.expires_at!)}
                                             </span>
                                             {invitation.expires_at && new Date(invitation.expires_at) <= new Date() && (
                                                 <span className="bg-red-200 text-red-500 px-2 py-0.5 rounded text-xs">Έληξε</span>

@@ -1,14 +1,15 @@
-import AppLayout from '@/layouts/app-layout';
 import { Form, Head } from '@inertiajs/react';
-import { BreadcrumbItem } from '@/types/navigation';
-import { dashboard } from '@/routes';
-import { Role, RoleLabels } from '@/types/roles';
-import { store } from '@/routes/invitations';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
+import { dashboard } from '@/routes';
+import { store } from '@/routes/invitations';
+import type { BreadcrumbItem } from '@/types/navigation';
+import { RoleLabels } from '@/types/roles';
+import type { Role} from '@/types/roles';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
