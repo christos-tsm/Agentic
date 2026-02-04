@@ -1,13 +1,13 @@
 import { Head, Link, router } from "@inertiajs/react"
 import { Plus } from "lucide-react";
 import { useState } from "react"
+import Notice from "@/components/ui/notice";
 import { PaginationComponent } from "@/components/ui/pagination"
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as clientsIndex, create, show } from "@/routes/clients";
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsPageData } from "@/types/clients";
-import Notice from "@/components/ui/notice";
 
 type ClientsPageType = {
     clients: ClientsPageData;
@@ -110,29 +110,29 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                                 <p>Email</p>
                                 <p>Τηλέφωνο</p>
                                 <p>Ενεργά πρότζεκτ</p>
-                                <p>Status</p>
+                                <p>Κατάσταση</p>
                             </div>
                             {clients.data.map(client =>
-                                <div key={client.id} className="grid grid-cols-8 gap-10 text-sm odd:bg-gray-200 py-2">
+                                <div key={client.id} className="grid grid-cols-8 gap-10 text-sm odd:bg-gray-200 py-2 text-foreground/90">
                                     <p className="font-bold overflow-clip text-ellipsis">
                                         <Link href={show(client.id)}>
                                             {client.name}
                                         </Link>
                                     </p>
-                                    <p className="font-medium overflow-clip text-ellipsis">{client.company_name || '-'}</p>
-                                    <p className="font-medium overflow-clip text-ellipsis">{client.vat_number || '-'}</p>
-                                    <p className="font-medium overflow-clip text-ellipsis">{client.doy || '-'}</p>
-                                    <p className="font-medium overflow-clip text-ellipsis">
-                                        <a href={`mailto:${client.company_email ?? client.email}`} className="hover:text-primary transition-colors duration-300">
+                                    <p className="overflow-clip text-ellipsis">{client.company_name || '-'}</p>
+                                    <p className="overflow-clip text-ellipsis">{client.vat_number || '-'}</p>
+                                    <p className="overflow-clip text-ellipsis">{client.doy || '-'}</p>
+                                    <p className="overflow-clip text-ellipsis">
+                                        <a href={`mailto:${client.company_email ?? client.email}`} className="hover:text-primary transition-colors duration-300 underline">
                                             {client.company_email ?? client.email}
                                         </a>
                                     </p>
-                                    <p className="font-medium">
-                                        <a href={`tel:${client.phone}`} className="hover:text-primary transition-colors duration-300">
+                                    <p>
+                                        <a href={`tel:${client.phone}`} className="hover:text-primary transition-colors duration-300 underline">
                                             {client.phone}
                                         </a>
                                     </p>
-                                    <p className="font-medium">
+                                    <p>
                                         {client.projects_count}
                                     </p>
                                     <p className={`capitalize font-bold text-5xl leading-1 flex items-center`}>

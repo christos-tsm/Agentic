@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { Mail, UserPlus } from 'lucide-react';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -7,6 +8,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/hooks/use-current-url';
+import { create, index } from "@/routes/invitations"
 import type { NavItem } from '@/types';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
@@ -30,6 +32,31 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 ))}
+            </SidebarMenu>
+            <SidebarGroupLabel>Χρήστες</SidebarGroupLabel>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton
+                        asChild
+                        isActive={isCurrentUrl(index().url)}
+                        tooltip={'Προσκλήσεις'}
+                    >
+                        <Link href={index().url} prefetch>
+                            <Mail />
+                            <span>Προσκλήσεις</span>
+                        </Link>
+                    </SidebarMenuButton>
+                    <SidebarMenuButton
+                        asChild
+                        isActive={isCurrentUrl(create().url)}
+                        tooltip={'Πρόσκληση χρήστη'}
+                    >
+                        <Link href={create().url} prefetch>
+                            <UserPlus />
+                            <span>Πρόσκληση χρήστη</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
             </SidebarMenu>
         </SidebarGroup>
     );

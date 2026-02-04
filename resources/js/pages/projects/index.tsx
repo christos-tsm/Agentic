@@ -1,14 +1,14 @@
-import { Head, Link, router } from "@inertiajs/react"
+import { Head, Link, router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import Notice from "@/components/ui/notice";
 import { PaginationComponent } from "@/components/ui/pagination";
-import AppLayout from "@/layouts/app-layout"
+import AppLayout from "@/layouts/app-layout";
 import { dashboard } from "@/routes";
 import { index as projectsIndex, create, show } from "@/routes/projects"
 import type { BreadcrumbItem } from "@/types";
 import type { ProjectsPageData, ProjectsStatus } from "@/types/projects";
 import { PROJECTS_STATUS } from "@/types/projects";
-import Notice from "@/components/ui/notice";
 
 type ProjectsPageType = {
     projects: ProjectsPageData;

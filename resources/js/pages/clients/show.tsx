@@ -4,9 +4,9 @@ import ClientForm from "@/components/forms/ClientForm";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as clientsIndex } from "@/routes/clients"
+import { create } from "@/routes/projects";
 import type { BreadcrumbItem } from "@/types";
 import type { Client } from "@/types/clients";
-import { create } from "@/routes/projects";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

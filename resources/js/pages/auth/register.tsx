@@ -9,7 +9,7 @@ import AuthLayout from '@/layouts/auth-layout';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
-export default function Register() {
+export default function Register({ invitation_token, email, role }: { invitation_token?: string; email?: string; role?: string; }) {
     return (
         <AuthLayout
             title="Create an account"
@@ -53,6 +53,8 @@ export default function Register() {
                                     autoComplete="email"
                                     name="email"
                                     placeholder="email@example.com"
+                                    readOnly={!!email}
+                                    defaultValue={email ?? ''}
                                 />
                                 <InputError message={errors.email} />
                             </div>
@@ -89,6 +91,10 @@ export default function Register() {
                                 />
                             </div>
 
+                            <Input type="hidden" name="invitation_token" value={invitation_token ?? ''} />
+                            <Input type="hidden" name="role" value={role ?? ''} />
+
+                            {errors.invitation_token && <InputError message={errors.invitation_token} className="mt-2" />}
                             <Button
                                 type="submit"
                                 className="mt-2 w-full"
@@ -99,6 +105,7 @@ export default function Register() {
                                 Create account
                             </Button>
                         </div>
+
 
                         <div className="text-center text-sm text-muted-foreground">
                             Already have an account?{' '}
