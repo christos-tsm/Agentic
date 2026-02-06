@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, File, Folder, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, Files, Folder, LayoutGrid, Users, FileCode2Icon } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -9,11 +9,11 @@ import {
     SidebarFooter,
     SidebarHeader,
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as clientsIndex } from '@/routes/clients'
+import { index as invoicesIndex } from '@/routes/invoices';
 import { index as projectsIndex } from '@/routes/projects'
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
@@ -32,7 +32,12 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Προτζεκτ',
         href: projectsIndex(),
-        icon: File,
+        icon: FileCode2Icon,
+    },
+    {
+        title: 'Τιμολόγια',
+        href: invoicesIndex(),
+        icon: Files,
     },
 ];
 
@@ -55,11 +60,9 @@ export function AppSidebar() {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch className="gap-1!">
-                                <AppLogo />
-                            </Link>
-                        </SidebarMenuButton>
+                        <Link href={dashboard()} prefetch className="gap-1! flex overflow-hidden outline-0!">
+                            <AppLogo />
+                        </Link>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>

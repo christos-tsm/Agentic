@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +37,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/invitations/{invitation}/cancel', [InvitationController::class, 'cancel'])->name('invitations.cancel');
     Route::delete('/invitations/{invitation}', [InvitationController::class, 'delete'])->name('invitations.delete');
     Route::post('/invitations/{invitation}/resend', [InvitationController::class, 'resendEmail'])->name('invitations.resend');
+
+    // Invoices Routes
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 });
 
 Route::middleware(['auth'])->group(function () {

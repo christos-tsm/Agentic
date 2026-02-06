@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ClientController extends Controller {
-    public function __construct(protected ClientService $clientService) {
+    protected $clientService;
+
+    public function __construct(ClientService $clientService) {
+        $this->clientService = $clientService;
     }
 
     public function index(SearchRequest $searchRequest) {
