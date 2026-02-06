@@ -20,7 +20,7 @@ class ProjectFilterRequest extends FormRequest {
     public function rules(): array {
         return [
             'search' => 'nullable|string|max:100',
-            'status' => 'nullable|in:backlog,in_progress,completed,on_hold',
+            'status' => 'nullable|in:all,backlog,in_progress,completed,on_hold',
         ];
     }
 }

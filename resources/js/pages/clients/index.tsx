@@ -8,12 +8,17 @@ import { dashboard } from "@/routes";
 import { index as clientsIndex, create, show } from "@/routes/clients";
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsPageData } from "@/types/clients";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import TableHeaderRow from "@/components/ui/table-header-row";
+import TableContentRow from "@/components/ui/table-content-row";
 
 type ClientsPageType = {
     clients: ClientsPageData;
     filters?: {
         search?: string;
-        status?: 'active' | 'inactive';
+        status?: 'active' | 'inactive' | 'all';
     };
 }
 
@@ -30,7 +35,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
     const [search, setSearch] = useState(filters.search || '');
-    const [status, setStatus] = useState<'active' | 'inactive' | ''>(filters.status || '');
+    const [status, setStatus] = useState<'active' | 'inactive' | 'all'>(filters.status || 'all');
 
 
     const handleFilter = () => {
@@ -67,8 +72,8 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex items-center gap-2">
-                    <div className="border rounded border-gray-200 px-4 py-2 flex-1">
-                        <input
+                    <div className="flex-1">
+                        <Input
                             type="text"
                             placeholder="Όνομα, email, τηλέφωνο"
                             name="search"
@@ -79,30 +84,31 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                             onKeyDown={handleKeyDown}
                         />
                     </div>
-                    <div className="border rounded border-gray-200 px-4 py-2">
-                        <select
-                            name="status"
-                            id="status"
-                            className="outline-0 text-sm font-medium bg-transparent cursor-pointer"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value as 'active' | 'inactive' | '')}
-                        >
-                            <option value="">Όλα τα status</option>
-                            <option value="active">Ενεργός</option>
-                            <option value="inactive">Ανενεργός</option>
-                        </select>
+                    <div className="flex-1 max-w-87 [&>button]:max-w-full">
+                        <Select name="status" onValueChange={(e) => setStatus(e as "active" | "inactive" | "all")} defaultValue={status}>
+                            <SelectTrigger className="w-full max-w-48" id="status">
+                                <SelectValue placeholder="Κατάσταση" />
+                            </SelectTrigger>
+                            <SelectContent className="w-full min-w-30">
+                                <SelectGroup className="w-full">
+                                    <SelectItem value="all">Όλοι</SelectItem>
+                                    <SelectItem value="active">Ενεργός</SelectItem>
+                                    <SelectItem value="inactive">Ανενεργός</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <button
+                    <Button
                         onClick={handleFilter}
                         className="text-white font-medium text-sm px-4 py-2 rounded cursor-pointer bg-primary"
                     >
                         Αναζήτηση
-                    </button>
+                    </Button>
                 </div>
                 {clients.data.length >= 1 ?
                     <>
                         <div className="min-h-125">
-                            <div className="grid grid-cols-8 gap-10 border-b border-b-gray-200 text-sm py-2">
+                            <TableHeaderRow columns={8}>
                                 <p>Όνομα</p>
                                 <p>Όνομα εταιρείας</p>
                                 <p>ΑΦΜ</p>
@@ -111,10 +117,10 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                                 <p>Τηλέφωνο</p>
                                 <p>Ενεργά πρότζεκτ</p>
                                 <p>Κατάσταση</p>
-                            </div>
+                            </TableHeaderRow>
                             {clients.data.map(client =>
-                                <div key={client.id} className="grid grid-cols-8 gap-10 text-sm odd:bg-gray-200 py-2 text-foreground/90">
-                                    <p className="font-bold overflow-clip text-ellipsis">
+                                <TableContentRow columns={8} key={client.id}>
+                                    <p className="text-nowrap font-bold overflow-clip text-ellipsis">
                                         <Link href={show(client.id)}>
                                             {client.name}
                                         </Link>
@@ -135,10 +141,10 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                                     <p>
                                         {client.projects_count}
                                     </p>
-                                    <p className={`capitalize font-bold text-5xl leading-1 flex items-center`}>
+                                    <p className="capitalize font-bold text-5xl leading-1 flex items-center">
                                         <span className={`w-2 h-2 rounded-full inline-flex ${client.status === 'active' ? 'bg-green-600' : 'bg-red-400'}`}></span>
                                     </p>
-                                </div>
+                                </TableContentRow>
                             )}
                         </div>
                         <PaginationComponent

@@ -20,7 +20,7 @@ class SearchRequest extends FormRequest {
     public function rules(): array {
         return [
             'search' => 'nullable|string|max:100',
-            'status' => 'nullable|in:active,inactive',
+            'status' => 'nullable|in:all,active,inactive',
         ];
     }
 }

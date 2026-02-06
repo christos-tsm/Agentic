@@ -14,6 +14,8 @@ import type { BreadcrumbItem } from '@/types';
 import type { InvitationsPageData } from '@/types/invitations';
 import { RoleLabels } from '@/types/roles';
 import type { Role } from '@/types/roles';
+import TableHeaderRow from '@/components/ui/table-header-row';
+import TableContentRow from '@/components/ui/table-content-row';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -105,7 +107,7 @@ const InvitationsPage = ({ invitations, roles }: { invitations: InvitationsPageD
                 </div>
                 {invitations.data.length >= 1 ?
                     <>
-                        <div className="grid grid-cols-7 border-b border-b-gray-200 text-xs py-2 font-medium">
+                        <TableHeaderRow columns={7}>
                             <p>Email</p>
                             <p>Κατάσταση Πρόσκλησης</p>
                             <p>Ρόλος</p>
@@ -113,9 +115,9 @@ const InvitationsPage = ({ invitations, roles }: { invitations: InvitationsPageD
                             <p>Ημερομηνία λήξης πρόσκλησης</p>
                             <p>Ημερομηνία εγγραφής</p>
                             <p>Ενέργειες</p>
-                        </div>
+                        </TableHeaderRow>
                         {invitations.data.map((invitation) => (
-                            <div className="grid grid-cols-7 text-sm odd:bg-gray-200 py-2 text-foreground/90" key={invitation.id}>
+                            <TableContentRow columns={7} key={invitation.id}>
                                 <p className="font-bold overflow-clip text-ellipsis">{invitation.email}</p>
                                 <p className={invitation.registered_at ? "text-green-600" : "text-red-400"}>{invitation.registered_at ? "Ενεργός" : "Ανενεργός"}</p>
                                 <p>{RoleLabels[invitation.role]}</p>
@@ -165,7 +167,7 @@ const InvitationsPage = ({ invitations, roles }: { invitations: InvitationsPageD
                                         </>
                                     }
                                 </div>
-                            </div>
+                            </TableContentRow>
                         ))}
                         <PaginationComponent
                             pagination={invitations}

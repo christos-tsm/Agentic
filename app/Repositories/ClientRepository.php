@@ -16,7 +16,11 @@ class ClientRepository {
                     ->orWhere('phone', 'like', "%{$search}%");
             })
             ->when($status, function ($query, $status) {
-                $query->where('status', $status);
+                if ($status === 'all') {
+                    return $query;
+                } else {
+                    $query->where('status', $status);
+                }
             })
             ->withCount('projects')
             ->latest()

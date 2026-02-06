@@ -1,14 +1,19 @@
 import { Head, Link, router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import type { BreadcrumbItem } from "@/types";
+import { PROJECTS_STATUS } from "@/types/projects";
+import { dashboard } from "@/routes";
+import { index as projectsIndex, create, show } from "@/routes/projects";
+import type { ProjectsPageData, ProjectsStatus } from "@/types/projects";
+import AppLayout from "@/layouts/app-layout";
 import Notice from "@/components/ui/notice";
 import { PaginationComponent } from "@/components/ui/pagination";
-import AppLayout from "@/layouts/app-layout";
-import { dashboard } from "@/routes";
-import { index as projectsIndex, create, show } from "@/routes/projects"
-import type { BreadcrumbItem } from "@/types";
-import type { ProjectsPageData, ProjectsStatus } from "@/types/projects";
-import { PROJECTS_STATUS } from "@/types/projects";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import TableHeaderRow from "@/components/ui/table-header-row";
+import TableContentRow from "@/components/ui/table-content-row";
 
 type ProjectsPageType = {
     projects: ProjectsPageData;
@@ -68,8 +73,8 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex items-center gap-2">
-                    <div className="border rounded border-gray-200 px-4 py-2 flex-1">
-                        <input
+                    <div className="flex-1">
+                        <Input
                             type="text"
                             placeholder="Τίτλος, Όνομα πελάτη"
                             name="search"
@@ -80,55 +85,56 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                             onKeyDown={handleKeyDown}
                         />
                     </div>
-                    <div className="border rounded border-gray-200 px-4 py-2">
-                        <select
-                            name="status"
-                            id="status"
-                            className="outline-0 text-sm font-medium bg-transparent cursor-pointer"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value as ProjectsStatus)}
-                        >
-                            <option value="">Κατάσταση</option>
-                            {PROJECTS_STATUS.map(
-                                stat => <option key={stat}>{stat}</option>
-                            )}
-                        </select>
+                    <div className="flex-1 max-w-87 [&>button]:max-w-full">
+                        <Select name="status" onValueChange={(e) => setStatus(e as ProjectsStatus)} defaultValue={status}>
+                            <SelectTrigger className="w-full max-w-48" id="status">
+                                <SelectValue placeholder="Κατάσταση" />
+                            </SelectTrigger>
+                            <SelectContent className="w-full min-w-30">
+                                <SelectGroup className="w-full">
+                                    <SelectItem value="all">Όλες οι καταστάσεις</SelectItem>
+                                    {PROJECTS_STATUS.map(
+                                        stat => <SelectItem key={stat} value={stat}>{stat}</SelectItem>
+                                    )}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <button
+                    <Button
                         onClick={handleFilter}
                         className="text-white font-medium text-sm px-4 py-2 rounded cursor-pointer bg-primary"
                     >
                         Αναζήτηση
-                    </button>
+                    </Button>
                 </div>
                 {projects.data.length >= 1 ?
                     <>
                         <div className="min-h-500">
-                            <div className="grid grid-cols-5 border-b border-b-gray-200 text-sm py-2">
+                            <TableHeaderRow columns={5}>
                                 <p>Τίτλος</p>
                                 <p>Πελάτης</p>
                                 <p>Κατάσταση</p>
                                 <p>Budget</p>
                                 <p>Deadline</p>
-                            </div>
+                            </TableHeaderRow>
                             {projects.data.map(project =>
-                                <div key={project.id} className="grid grid-cols-5 text-sm odd:bg-gray-200/50 py-2">
+                                <TableContentRow columns={5} key={project.id}>
                                     <p className="font-bold">
                                         <Link href={show(project.id).url}>
                                             {project.title}
                                         </Link>
                                     </p>
-                                    <p className="font-medium">{project.client.name || project.client.company_name}</p>
-                                    <p className="font-medium">
+                                    <p>{project.client.name || project.client.company_name}</p>
+                                    <p>
                                         {project.status}
                                     </p>
-                                    <p className="font-medium">
+                                    <p>
                                         {project.budget}
                                     </p>
-                                    <p className="font-medium">
+                                    <p>
                                         {project.deadline_at}
                                     </p>
-                                </div>
+                                </TableContentRow>
                             )}
                         </div>
                         <PaginationComponent
@@ -147,7 +153,7 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                 Προσθήκη πρότζεκτ
                 <Plus />
             </Link>
-        </AppLayout>
+        </AppLayout >
     )
 }
 
