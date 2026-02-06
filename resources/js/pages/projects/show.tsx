@@ -5,7 +5,7 @@ import { dashboard } from "@/routes";
 import { index as projectsIndex } from "@/routes/projects"
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsList } from "@/types/clients";
-import type { Projects } from "@/types/projects";
+import type { Project } from "@/types/projects";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const ShowProjectsPage = ({ project, clients }: { project: Projects, clients: ClientsList }) => {
+const ShowProjectsPage = ({ project, clients }: { project: Project, clients: ClientsList }) => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Επεξεργασία πρότζεκτ" />

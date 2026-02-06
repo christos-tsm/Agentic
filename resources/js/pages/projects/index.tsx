@@ -1,19 +1,19 @@
 import { Head, Link, router } from "@inertiajs/react";
-import { Plus } from "lucide-react";
+import { ExternalLink, Plus } from "lucide-react";
 import { useState } from "react";
-import type { BreadcrumbItem } from "@/types";
-import { PROJECTS_STATUS } from "@/types/projects";
-import { dashboard } from "@/routes";
-import { index as projectsIndex, create, show } from "@/routes/projects";
-import type { ProjectsPageData, ProjectsStatus } from "@/types/projects";
-import AppLayout from "@/layouts/app-layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Notice from "@/components/ui/notice";
 import { PaginationComponent } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import TableHeaderRow from "@/components/ui/table-header-row";
 import TableContentRow from "@/components/ui/table-content-row";
+import TableHeaderRow from "@/components/ui/table-header-row";
+import AppLayout from "@/layouts/app-layout";
+import { dashboard } from "@/routes";
+import { index as projectsIndex, create, show } from "@/routes/projects";
+import type { BreadcrumbItem } from "@/types";
+import { PROJECTS_STATUS } from "@/types/projects";
+import type { ProjectsPageData, ProjectsStatus } from "@/types/projects";
 
 type ProjectsPageType = {
     projects: ProjectsPageData;
@@ -120,7 +120,8 @@ const ProjectsPage = ({ projects, filters = {} }: ProjectsPageType) => {
                             {projects.data.map(project =>
                                 <TableContentRow columns={5} key={project.id}>
                                     <p className="font-bold">
-                                        <Link href={show(project.id).url}>
+                                        <Link href={show(project.id).url} className="inline-flex items-center gap-2 duration-300 transition-colors hover:text-primary">
+                                            <ExternalLink size={12} />
                                             {project.title}
                                         </Link>
                                     </p>

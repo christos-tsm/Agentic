@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import Notice from '@/components/ui/notice';
 import { PaginationComponent } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import TableContentRow from '@/components/ui/table-content-row';
+import TableHeaderRow from '@/components/ui/table-header-row';
 import AppLayout from '@/layouts/app-layout';
 import { formatDate } from '@/lib/utils';
 import { dashboard } from "@/routes";
@@ -14,8 +16,6 @@ import type { BreadcrumbItem } from '@/types';
 import type { InvitationsPageData } from '@/types/invitations';
 import { RoleLabels } from '@/types/roles';
 import type { Role } from '@/types/roles';
-import TableHeaderRow from '@/components/ui/table-header-row';
-import TableContentRow from '@/components/ui/table-content-row';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

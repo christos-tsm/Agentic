@@ -5,7 +5,7 @@ export const PROJECTS_STATUS = ['backlog', 'in_progress', 'completed', 'on_hold'
 
 export type ProjectsStatus = typeof PROJECTS_STATUS[number];
 
-export type Projects = {
+export type Project = {
     id: number;
     title: string;
     client_id: number;
@@ -16,4 +16,4 @@ export type Projects = {
     deadline_at: string;
 };
 
-export type ProjectsPageData = PaginatedResponse<Projects>;
+export type ProjectsPageData = PaginatedResponse<Project>;

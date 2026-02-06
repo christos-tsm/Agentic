@@ -1,18 +1,18 @@
 import { Head, Link, router } from "@inertiajs/react"
-import { Plus } from "lucide-react";
+import { ExternalLink, Plus } from "lucide-react";
 import { useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Notice from "@/components/ui/notice";
 import { PaginationComponent } from "@/components/ui/pagination"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import TableContentRow from "@/components/ui/table-content-row";
+import TableHeaderRow from "@/components/ui/table-header-row";
 import AppLayout from "@/layouts/app-layout"
 import { dashboard } from "@/routes";
 import { index as clientsIndex, create, show } from "@/routes/clients";
 import type { BreadcrumbItem } from "@/types";
 import type { ClientsPageData } from "@/types/clients";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import TableHeaderRow from "@/components/ui/table-header-row";
-import TableContentRow from "@/components/ui/table-content-row";
 
 type ClientsPageType = {
     clients: ClientsPageData;
@@ -121,7 +121,8 @@ const ClientsPage = ({ clients, filters = {} }: ClientsPageType) => {
                             {clients.data.map(client =>
                                 <TableContentRow columns={8} key={client.id}>
                                     <p className="text-nowrap font-bold overflow-clip text-ellipsis">
-                                        <Link href={show(client.id)}>
+                                        <Link href={show(client.id)} className="inline-flex items-center gap-2 duration-300 transition-colors hover:text-primary">
+                                            <ExternalLink size={12} />
                                             {client.name}
                                         </Link>
                                     </p>
