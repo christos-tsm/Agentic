@@ -13,15 +13,6 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-
-    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-});
-
 // Admin Routes
 Route::group(['middleware' => ['role:admin']], function () {
     // Clients 
@@ -45,6 +36,15 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/invitations/{invitation}/cancel', [InvitationController::class, 'cancel'])->name('invitations.cancel');
     Route::delete('/invitations/{invitation}', [InvitationController::class, 'delete'])->name('invitations.delete');
     Route::post('/invitations/{invitation}/resend', [InvitationController::class, 'resendEmail'])->name('invitations.resend');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('dashboard');
+    })->name('dashboard');
+
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 });
 
 /*
