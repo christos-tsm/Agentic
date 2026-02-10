@@ -29,14 +29,14 @@ class ProjectController extends Controller {
     }
 
     public function create() {
-        $clients = $this->clientService->getClientsForDashboard('', null);
+        $clients = $this->clientService->getClients('', null);
         return Inertia::render('projects/create', [
             'clients' => $clients
         ]);
     }
 
     public function show(Project $project) {
-        $clients = $this->clientService->getClientsForDashboard('', null);
+        $clients = $this->clientService->getClients('', null);
         return Inertia::render('projects/show', [
             'project' => $project,
             'clients' => $clients

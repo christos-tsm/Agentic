@@ -26,7 +26,7 @@ class ClientService {
         }
     }
 
-    public function getClientsForDashboard(?string $search, ?string $status = null) {
+    public function getClients(?string $search, ?string $status = null) {
         return $this->clientRepository->getAllPaginated(12, $search, $status);
     }
 
@@ -48,5 +48,9 @@ class ClientService {
             Log::error('Failed to delete client: ' . $e->getMessage());
             return false;
         }
+    }
+
+    public function searchClients(string $query,  bool $byId = false): array {
+        return $this->clientRepository->search($query, 10, $byId);
     }
 }

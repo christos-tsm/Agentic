@@ -20,6 +20,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
     Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
+    Route::get('/clients/search', [ClientController::class, 'search'])->name('clients.search');
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
     Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
     Route::delete('/clients/{client}', [ClientController::class, 'delete'])->name('clients.delete');
@@ -40,6 +41,9 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     // Invoices Routes
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
 });
 
 Route::middleware(['auth'])->group(function () {

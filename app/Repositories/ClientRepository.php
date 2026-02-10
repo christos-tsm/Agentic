@@ -23,6 +23,7 @@ class ClientRepository {
                 }
             })
             ->withCount('projects')
+            ->with('projects')
             ->latest()
             ->paginate($perPage);
     }
@@ -42,5 +43,17 @@ class ClientRepository {
 
     public function delete(Client $client): void {
         $client->deleteOrFail();
+    }
+
+    public function search(string $query, int $limit = 10, bool $byId = false): array {
+        $q = Client::query()->with('projects');
+
+        if ($byId) {
+            $q->where('id', $query);
+        } else {
+            $q->where('name', 'like', "%{$query}%");
+        }
+
+        return $q->limit($limit)->get()->toArray();
     }
 }

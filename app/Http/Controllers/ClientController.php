@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientRequest;
+use App\Http\Requests\ClientSearchRequest;
 use App\Http\Requests\SearchRequest;
 use App\Models\Client;
 use App\Services\ClientService;
@@ -18,7 +19,7 @@ class ClientController extends Controller {
 
     public function index(SearchRequest $searchRequest) {
         return Inertia::render('clients/index', [
-            'clients' => $this->clientService->getClientsForDashboard($searchRequest->search, $searchRequest->status),
+            'clients' => $this->clientService->getClients($searchRequest->search, $searchRequest->status),
             'filters' => $searchRequest->only(['search', 'status'])
         ]);
     }
@@ -56,5 +57,13 @@ class ClientController extends Controller {
             'message' => $deleted ? 'Ο πελάτης διαγράφηκε επιτυχώς' : 'Προέκυψε κάποιο σφάλμα',
             'status' => $deleted ? 'success' : 'error'
         ]);
+    }
+
+    public function search(ClientSearchRequest $clientSearchRequest) {
+        $clients = $this->clientService->searchClients(
+            $clientSearchRequest->get('q', ''),
+            $clientSearchRequest->boolean('by_id')
+        );
+        return response()->json($clients);
     }
 }
